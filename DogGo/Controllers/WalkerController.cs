@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace DogGo.Controllers
 {
-    public class WalkersController : Controller
+    public class WalkerController : Controller
     {
-        // GET: Walkers
+        // GET: Walker
         public ActionResult Index()
         {
             List<Walker> walkers = _walkerRepo.GetAllWalkers();
@@ -19,7 +19,7 @@ namespace DogGo.Controllers
             return View(walkers);
         }
 
-        // GET: Walkers/Details/5
+        // GET: Walker/Details/5
         public ActionResult Details(int id)
         {
             Walker walker = _walkerRepo.GetWalkerById(id);
@@ -32,13 +32,13 @@ namespace DogGo.Controllers
             return View(walker);
         }
 
-        // GET: WalkersController/Create
+        // GET: WalkerController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: WalkersController/Create
+        // POST: WalkerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(IFormCollection collection)
@@ -53,13 +53,13 @@ namespace DogGo.Controllers
             }
         }
 
-        // GET: WalkersController/Edit/5
+        // GET: WalkerController/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: WalkersController/Edit/5
+        // POST: WalkerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, IFormCollection collection)
@@ -74,13 +74,13 @@ namespace DogGo.Controllers
             }
         }
 
-        // GET: WalkersController/Delete/5
+        // GET: WalkerController/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: WalkersController/Delete/5
+        // POST: WalkerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, IFormCollection collection)
@@ -97,7 +97,7 @@ namespace DogGo.Controllers
 
         // ASP.NET will give us an instance of our Walker Repository. This is called "Dependency Injection"
         private readonly IWalkerRepository _walkerRepo;
-        public WalkersController(IWalkerRepository walkerRepository)
+        public WalkerController(IWalkerRepository walkerRepository)
         {
             _walkerRepo = walkerRepository;
         }
