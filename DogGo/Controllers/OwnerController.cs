@@ -3,18 +3,44 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DogGo.Models;
+using DogGo.Models.ViewModels;
 using DogGo.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 
 namespace DogGo.Controllers
 {
     public class OwnerController : Controller
     {
-        private readonly IOwnerRepository _ownerRepository;
+        private readonly OwnerRepository _ownerRepository;
+        private readonly DogRepository _dogRepository;
+        private readonly WalkerRepository _walkerRepository;
+        private readonly NeighborhoodRepository _neighborhoodRepository;
 
-        public OwnerController(IOwnerRepository ownerRepository)
+        // The constructor accepts an IConfiguration object as a parameter. This class comes from the ASP.NET framework and is useful for retrieving things out of the appsettings.json file like connection strings.
+        public OwnerController(IConfiguration config)
         {
-            _ownerRepository = ownerRepository;
+            _ownerRepository = new OwnerRepository(config);
+            _dogRepository = new DogRepository(config);
+            _walkerRepository = new WalkerRepository(config);
+            _neighborhoodRepository = new NeighborhoodRepository(config);
+        }
+
+        // GET: Owners/Details/5
+        public ActionResult Details(int id)
+        {
+            Owner owner = _ownerRepository.GetOwnerById(id);
+            List<Dog> dogs = _dogRepository.GetDogsByOwnerId(owner.Id);
+            List<Walker> walkers = _walkerRepository.GetWalkersInNeighborhood(owner.NeighborhoodId);
+
+            ProfileViewModel vm = new ProfileViewModel()
+            {
+                Owner = owner,
+                Dogs = dogs,
+                Walkers = walkers
+            };
+
+            return View(vm);
         }
 
         public IActionResult Index()
@@ -23,9 +49,18 @@ namespace DogGo.Controllers
             return View(owners);
         }
 
+        // GET: Owners/Create
         public ActionResult Create()
         {
-            return View();
+            List<Neighborhood> neighborhoods = _neighborhoodRepository.GetAll();
+
+            OwnerFormViewModel vm = new OwnerFormViewModel()
+            {
+                Owner = new Owner(),
+                Neighborhoods = neighborhoods
+            };
+
+            return View(vm);
         }
 
         // POST: Owners/Create
