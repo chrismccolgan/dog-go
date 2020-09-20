@@ -1,4 +1,4 @@
-﻿@model DogGo.Models.Dog
+﻿@model DogGo.Models.ViewModels.DogFormViewModel
 
 @{
     ViewData["Title"] = "Create";
@@ -13,29 +13,35 @@
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
+                <label asp-for="Dog.Name" class="control-label"></label>
+                <input asp-for="Dog.Name" class="form-control" />
+                <span asp-validation-for="Dog.Name" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="OwnerId" class="control-label"></label>
-                <input asp-for="OwnerId" class="form-control" />
-                <span asp-validation-for="OwnerId" class="text-danger"></span>
+                <label asp-for="Dog.OwnerId" class="control-label">Owner</label>
+                <select asp-for="Dog.OwnerId" class="form-control">
+                    <option value="">Select Owner</option>
+                    @foreach (Owner owner in Model.Owners)
+                    {
+                        <option value="@owner.Id">@owner.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="Dog.OwnerId" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Breed" class="control-label"></label>
-                <input asp-for="Breed" class="form-control" />
-                <span asp-validation-for="Breed" class="text-danger"></span>
+                <label asp-for="Dog.Breed" class="control-label"></label>
+                <input asp-for="Dog.Breed" class="form-control" />
+                <span asp-validation-for="Dog.Breed" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
+                <label asp-for="Dog.Notes" class="control-label"></label>
+                <input asp-for="Dog.Notes" class="form-control" />
+                <span asp-validation-for="Dog.Notes" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ImageUrl" class="control-label"></label>
-                <input asp-for="ImageUrl" class="form-control" />
-                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <label asp-for="Dog.ImageUrl" class="control-label"></label>
+                <input asp-for="Dog.ImageUrl" class="form-control" />
+                <span asp-validation-for="Dog.ImageUrl" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
