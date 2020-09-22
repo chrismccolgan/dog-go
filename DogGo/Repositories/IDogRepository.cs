@@ -10,5 +10,6 @@ namespace DogGo.Repositories
         Dog GetDogById(int id);
         List<Dog> GetDogsByOwnerId(int ownerId);
         void UpdateDog(Dog dog);
+        void DeleteDog(int id);
     }
 }

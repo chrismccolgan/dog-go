@@ -1,13 +1,12 @@
 ﻿@model DogGo.Models.Dog
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Delete";
 }
 
-<h1>Details</h1>
+<h1>Delete</h1>
 
-<h3>@Model.Name</h3>
-
+<h3>Are you sure you want to delete @Model.Name?</h3>
 <div>
     <h4>Dog</h4>
     <hr />
@@ -49,8 +48,9 @@
             @Html.DisplayFor(model => model.ImageUrl)
         </dd>
     </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
+    
+    <form asp-action="Delete">
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
 </div>

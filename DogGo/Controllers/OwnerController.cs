@@ -29,7 +29,7 @@ namespace DogGo.Controllers
             _neighborhoodRepository = new NeighborhoodRepository(config);
         }
 
-        // GET: Owners/Details/5
+        // GET: Owner/Details/5
         public ActionResult Details(int id)
         {
             Owner owner = _ownerRepository.GetOwnerById(id);
@@ -52,7 +52,7 @@ namespace DogGo.Controllers
             return View(owners);
         }
 
-        // GET: Owners/Create
+        // GET: Owner/Create
         public ActionResult Create()
         {
             List<Neighborhood> neighborhoods = _neighborhoodRepository.GetAll();
@@ -66,7 +66,7 @@ namespace DogGo.Controllers
             return View(vm);
         }
 
-        // POST: Owners/Create
+        // POST: Owner/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(Owner owner)
@@ -83,7 +83,7 @@ namespace DogGo.Controllers
             }
         }
 
-        // GET: Owners/Delete/5
+        // GET: Owner/Delete/5
         public ActionResult Delete(int id)
         {
             Owner owner = _ownerRepository.GetOwnerById(id);
@@ -91,7 +91,7 @@ namespace DogGo.Controllers
             return View(owner);
         }
 
-        // POST: Owners/Delete/5
+        // POST: Owner/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(int id, Owner owner)
@@ -108,7 +108,7 @@ namespace DogGo.Controllers
             }
         }
 
-        // GET: Owners/Edit/5
+        // GET: Owner/Edit/5
         public ActionResult Edit(int id)
         {
             Owner owner = _ownerRepository.GetOwnerById(id);
@@ -129,7 +129,7 @@ namespace DogGo.Controllers
             return View(vm);
         }
 
-        // POST: Owners/Edit/5
+        // POST: Owner/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(int id, Owner owner)
@@ -175,7 +175,13 @@ namespace DogGo.Controllers
                 CookieAuthenticationDefaults.AuthenticationScheme,
                 new ClaimsPrincipal(claimsIdentity));
 
-            return RedirectToAction("Index", "Dog");
+            return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
     }
 }

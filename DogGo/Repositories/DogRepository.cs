@@ -230,10 +230,10 @@ namespace DogGo.Repositories
 
                 using (SqlCommand cmd = conn.CreateCommand())
                 {
-                    cmd.CommandText = @"
-                        SELECT Id, Name, OwnerId, Breed, Notes, ImageUrl
-                        FROM Dog
-                        WHERE Id = @id";
+                    cmd.CommandText = @"SELECT d.Id, d.Name, d.Breed, d.Notes, d.ImageUrl, d.OwnerId, o.Name AS OwnerName
+                                        FROM Dog d
+                                        LEFT JOIN Owner o ON d.OwnerId = o.Id
+                                        WHERE d.Id = @id";
 
                     cmd.Parameters.AddWithValue("@id", id);
 
@@ -246,7 +246,12 @@ namespace DogGo.Repositories
                             Id = reader.GetInt32(reader.GetOrdinal("Id")),
                             Name = reader.GetString(reader.GetOrdinal("Name")),
                             Breed = reader.GetString(reader.GetOrdinal("Breed")),
-                            OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId"))
+                            OwnerId = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                            Owner = new Owner()
+                            {
+                                Id = reader.GetInt32(reader.GetOrdinal("OwnerId")),
+                                Name = reader.GetString(reader.GetOrdinal("OwnerName"))
+                            }
                         };
 
                         if (reader.IsDBNull(reader.GetOrdinal("Notes")) == false)
@@ -267,25 +272,26 @@ namespace DogGo.Repositories
                 }
             }
         }
-        //public void DeleteOwner(int dogId)
-        //{
-        //    using (SqlConnection conn = Connection)
-        //    {
-        //        conn.Open();
 
-        //        using (SqlCommand cmd = conn.CreateCommand())
-        //        {
-        //            cmd.CommandText = @"
-        //                    DELETE FROM Dog
-        //                    WHERE Id = @Id
-        //                ";
+        public void DeleteDog(int dogId)
+        {
+            using (SqlConnection conn = Connection)
+            {
+                conn.Open();
 
-        //            cmd.Parameters.AddWithValue("@Id", dogId);
+                using (SqlCommand cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = @"
+                            DELETE FROM Dog
+                            WHERE Id = @Id
+                        ";
 
-        //            cmd.ExecuteNonQuery();
-        //        }
-        //    }
-        //}
+                    cmd.Parameters.AddWithValue("@Id", dogId);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
 
     }
 }

@@ -34,6 +34,18 @@ namespace DogGo.Controllers
             return View(dogs);
         }
 
+        // GET: Dog/Details/5
+        public ActionResult Details(int id)
+        {
+            Dog dog = _dogRepository.GetDogById(id);
+
+            if (dog == null)
+            {
+                return NotFound();
+            }
+
+            return View(dog);
+        }
 
         // LOOK AT THIS
         [Authorize]
@@ -120,6 +132,31 @@ namespace DogGo.Controllers
             try
             {
                 _dogRepository.UpdateDog(dog);
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View(dog);
+            }
+        }
+
+        // GET: Dog/Delete/5
+        public ActionResult Delete(int id)
+        {
+            Dog dog = _dogRepository.GetDogById(id);
+
+            return View(dog);
+        }
+
+        // POST: Dog/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(int id, Dog dog)
+        {
+            try
+            {
+                _dogRepository.DeleteDog(id);
 
                 return RedirectToAction("Index");
             }
